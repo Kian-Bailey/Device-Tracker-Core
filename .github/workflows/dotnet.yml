@@ -27,4 +27,4 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish Device Tracker Core.vbroj -c Release -o website --output ./publish
+      run: dotnet publish
