@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <RootNamespace>Device_Tracker_Core</RootNamespace>
     <StartupObject>Sub Main</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
