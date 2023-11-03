@@ -27,9 +27,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish
-run: dotnet publish -c Release -o ./publish
-
+      run: dotnet publish -c Release -o ./publish
     - name: Deploy to GitHub Releases
       uses: softprops/action-gh-release@v1
       with:
