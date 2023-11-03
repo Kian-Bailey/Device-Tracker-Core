@@ -32,5 +32,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: ./publish/**
+        tag_name: v1.0.0  # Replace with the tag you created
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
