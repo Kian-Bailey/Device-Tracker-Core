@@ -1,37 +1,43 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
   build:
-    #runs-on: self-hosted
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Publish
-      run: dotnet publish -c Release -o ./publish
-    - name: Deploy to GitHub Releases
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ./publish/**
-        tag_name: v1.0.0  # Replace with the tag you created
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Get latest tag
+        id: get_tag
+        run: echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
+
+      - name: Publish
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Deploy to GitHub Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./publish/**
+          tag_name: ${{ steps.get_tag.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
